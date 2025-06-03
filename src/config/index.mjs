@@ -38,6 +38,7 @@ export const chatgptWebModelKeys = [
 ]
 export const bingWebModelKeys = ['bingFree4', 'bingFreeSydney']
 export const bardWebModelKeys = ['bardWebFree']
+export const bardApiModelKeys = ['bardApi25Flash', 'bardApi20pro', 'bardApi20flash']
 export const claudeWebModelKeys = ['claude2WebFree']
 export const moonshotWebModelKeys = ['moonshotWebFree']
 export const gptApiModelKeys = ['gptApiInstruct', 'gptApiDavinci']
@@ -117,7 +118,10 @@ export const ModelGroups = {
     value: bardWebModelKeys,
     desc: 'Gemini (Web)',
   },
-
+  bardApiModelKeys: {
+    value: bardApiModelKeys,
+    desc: 'Gemini (API)',
+  },
   chatgptApiModelKeys: {
     value: chatgptApiModelKeys,
     desc: 'ChatGPT (API)',
@@ -219,6 +223,9 @@ export const Models = {
   moonshotWebFree: { value: '', desc: 'Kimi.Moonshot (Web, 100k)' },
 
   bardWebFree: { value: '', desc: 'Gemini (Web)' },
+  bardApi25Flash: { value: 'gemini-2.5-flash-preview-05-20', desc: 'Gemini (API, 2.5 Flash)' },
+  bardApi20pro: { value: 'gemini-2.0-pro-exp', desc: 'Gemini (API, 2.0 Pro)' },
+  bardApi20flash: { value: 'gemini-2.0-flash', desc: 'Gemini (API, 2.0 flash)' },
 
   chatglmTurbo: { value: 'GLM-4-Air', desc: 'ChatGLM (GLM-4-Air, 128k)' },
   chatglm4: { value: 'GLM-4-0520', desc: 'ChatGLM (GLM-4-0520, 128k)' },
@@ -317,6 +324,7 @@ export const defaultConfig = {
   claudeApiKey: '',
   chatglmApiKey: '',
   moonshotApiKey: '',
+  geminiApiKey: '',
 
   customApiKey: '',
 
@@ -341,6 +349,8 @@ export const defaultConfig = {
   customChatGptWebApiPath: '/backend-api/conversation',
   customOpenAiApiUrl: 'https://api.openai.com',
   customClaudeApiUrl: 'https://api.anthropic.com',
+  customGeminiApiUrl: 'https://generativelanguage.googleapis.com',
+  geminiEnableThink: false,
   disableWebModeHistory: true,
   hideContextMenu: false,
   siteRegex: 'match nothing',
@@ -456,6 +466,7 @@ export const defaultConfig = {
     'followin',
     'arxiv',
   ],
+  chainOfThought: false, // 是否启用思考模式
 }
 
 export function getNavigatorLanguage() {
@@ -486,6 +497,10 @@ export function isUsingMultiModeModel(configOrSession) {
 
 export function isUsingGeminiWebModel(configOrSession) {
   return isInApiModeGroup(bardWebModelKeys, configOrSession)
+}
+
+export function isUsingBardApiModel(configOrSession) {
+  return isInApiModeGroup(bardApiModelKeys, configOrSession)
 }
 
 export function isUsingChatgptApiModel(configOrSession) {

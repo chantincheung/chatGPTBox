@@ -30,6 +30,7 @@ import {
   isUsingChatGLMApiModel,
   isUsingGithubThirdPartyApiModel,
   isUsingGeminiWebModel,
+  isUsingBardApiModel,
   isUsingClaudeWebModel,
   isUsingMoonshotApiModel,
   isUsingMoonshotWebModel,
@@ -49,6 +50,7 @@ import { generateAnswersWithBardWebApi } from '../services/apis/bard-web.mjs'
 import { generateAnswersWithClaudeWebApi } from '../services/apis/claude-web.mjs'
 import { generateAnswersWithMoonshotCompletionApi } from '../services/apis/moonshot-api.mjs'
 import { generateAnswersWithMoonshotWebApi } from '../services/apis/moonshot-web.mjs'
+import { generateAnswersWithGeminiApi } from '../services/apis/gemini-api.mjs'
 import { isUsingModelName } from '../utils/model-name-convert.mjs'
 
 function setPortProxy(port, proxyTabId) {
@@ -127,8 +129,12 @@ async function executeApi(session, port, config) {
       await generateAnswersWithBingWebApi(port, session.question, session, accessToken, true)
     else await generateAnswersWithBingWebApi(port, session.question, session, accessToken)
   } else if (isUsingGeminiWebModel(session)) {
-    const cookies = await getBardCookies()
-    await generateAnswersWithBardWebApi(port, session.question, session, cookies)
+    if (isUsingBardApiModel(session)) {
+      await generateAnswersWithGeminiApi(port, session.question, session)
+    } else {
+      const cookies = await getBardCookies()
+      await generateAnswersWithBardWebApi(port, session.question, session, cookies)
+    }
   } else if (isUsingChatgptApiModel(session)) {
     await generateAnswersWithChatgptApi(port, session.question, session, config.apiKey)
   } else if (isUsingClaudeApiModel(session)) {

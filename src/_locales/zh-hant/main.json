@@ -159,5 +159,6 @@
   "Gemini (Web)": "Gemini (網頁版)",
   "Type": "類型",
   "Mode": "模式",
-  "Custom": "自訂"
+  "Custom": "自訂",
+  "Enable thinking mode (Chain of Thought)": "啟用思考模式 (Chain of Thought)"
 }

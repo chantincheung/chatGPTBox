@@ -13,6 +13,7 @@ import {
   isUsingAzureOpenAiApiModel,
   isUsingChatGLMApiModel,
   isUsingClaudeApiModel,
+  isUsingBardApiModel,
   isUsingCustomModel,
   isUsingOllamaApiModel,
   isUsingGithubThirdPartyApiModel,
@@ -331,6 +332,42 @@ export function GeneralPart({ config, updateConfig, setTabIndex }) {
               )}
             </span>
           )}
+          {isUsingBardApiModel(config) && (
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <span style="width: 50%; display: flex; gap: 5px;">
+                <input
+                  type="password"
+                  value={config.geminiApiKey}
+                  placeholder={t('Gemini API Key')}
+                  onChange={(e) => {
+                    const apiKey = e.target.value
+                    updateConfig({ geminiApiKey: apiKey })
+                  }}
+                />
+                {config.geminiApiKey.length === 0 && (
+                  <a
+                    href="https://ai.google.dev/"
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
+                  >
+                    <button style="white-space: nowrap;" type="button">
+                      {t('Get')}
+                    </button>
+                  </a>
+                )}
+              </span>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={config.geminiEnableThink}
+                  onChange={(e) => {
+                    updateConfig({ geminiEnableThink: e.target.checked })
+                  }}
+                />
+                {t('Enable Thinking Mode')}
+              </label>
+            </div>
+          )}
         </span>
         {isUsingSpecialCustomModel(config) && (
           <input
@@ -584,6 +621,16 @@ export function GeneralPart({ config, updateConfig, setTabIndex }) {
           }}
         />
         {t('Focus to input box after answering')}
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          checked={config.chainOfThought}
+          onChange={(e) => {
+            updateConfig({ chainOfThought: e.target.checked })
+          }}
+        />
+        {t('Enable thinking mode (Chain of Thought)')}
       </label>
       <br />
       <div style={{ display: 'flex', gap: '10px' }}>
